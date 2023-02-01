@@ -1,0 +1,48 @@
+<div class="container">
+  <ul>
+    <form [formGroup]="questionCreator">
+      <div class="form-group">
+        <label for="">
+          <span>Label Name</span>
+          <input type="text" matInput placeholder="label name*" formControlName="label">
+        </label>
+        <br>
+        <label for="">
+          <span>Hint</span>
+          <input type="text" matInput placeholder="Hint" formControlName="hint">
+        </label>
+      </div>
+
+      <mat-radio-group formControlName="inputType" class="d-flex flex-wrap">
+        <mat-radio-button class="mb-2 w-50" *ngFor="let type of questionsTypes | keyvalue" [value]="type.value">
+          {{type.value}}
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <form [formGroup]="optionsCreator" *ngIf=" questionCreator.get('inputType')?.value === 'radio'
+      || questionCreator.get('inputType')?.value === 'select'">
+        <div *ngFor="let option of optionsList;let index = index">
+
+          <mat-form-field class="example-full-width">
+            <mat-label>
+              {{'option ' + (index + 1)  }}
+            </mat-label>
+
+            <input matInput type="text" [formControlName]="'option'+ (index+1)">
+          </mat-form-field>
+
+          <button mat-button color="warn" (click)="removeOption(index)">Delete </button>
+        </div>
+        <br>
+        <button mat-raised-button color="primary" (click)="addOption()">Add Option + </button>
+      </form>
+
+
+      <div class="d-flex justify-content-between pt-5">
+        <button mat-button color="primary" [disabled]="!this.questionCreator.valid" (click)="save()"> Submit </button>
+        <button mat-button color="warn" (click)="close()">Close </button>
+      </div>
+
+    </form>
+  </ul>
+</div>

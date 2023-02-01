@@ -1,0 +1,5 @@
+{
+  "/:id": "/forms/:id",
+  "/forms": "/",
+  "/auth/login": "/users"
+}

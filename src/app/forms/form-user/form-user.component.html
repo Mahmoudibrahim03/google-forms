@@ -1,0 +1,66 @@
+<form [formGroup]="generatedForm" class="d-flex flex-column align-items-center p-5">
+  <h1>Form N ( {{formtitle}} )</h1>
+  <div *ngFor="let inp of inputs;let index = index">
+    <div [ngSwitch]="inputs" class="d-flex ml-3 w-100 align-items-center">
+
+      <!-- Select Input -->
+      <mat-form-field *ngIf="inp.type == 'select'" appearance="fill">
+        <mat-label>{{inp.label}}</mat-label>
+        <mat-select [formControlName]="inp.formControlName">
+          <mat-label></mat-label>
+          <mat-option *ngFor="let option of inp.options" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <!-- Radio Input -->
+      <mat-radio-group *ngIf="inp?.type == 'radio'" [formControlName]="inp.formControlName">
+        <label> {{inp.label}} </label>
+        <br>
+        <mat-radio-button *ngFor="let option of inp.options" [value]="option">
+          {{option}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <!-- Date input  -->
+      <mat-form-field *ngIf="inp?.type == 'date'">
+        <mat-label>{{inp.label}}</mat-label>
+        <input matInput [matDatepicker]="picker" [formControlName]="inp.formControlName">
+        <mat-hint>{{inp.hint}}</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Text - Number - textArea - Password - Email ( input ) -->
+      <mat-form-field *ngIf="
+      inp?.type == 'text'    ||
+      inp?.type == 'number'  ||
+      inp?.type == 'textarea'||
+      inp?.type == 'password'||
+      inp?.type =='email'" class="example-full-width">
+        <mat-label>
+          {{inp.label}}
+        </mat-label>
+        <input [type]="inp.type" [formControlName]="inp.formControlName" matInput>
+      </mat-form-field>
+      <br>
+
+      <button mat-button class="btn btn-danger px-5 h-50 ms-5" *ngIf="isAdmin"
+        (click)="deleteQuestion(inp)">Delete</button>
+      <button mat-button class="btn btn-success px-5 h-50 ms-5" *ngIf="isAdmin"
+        (click)="editQuestion(inp)">Edit</button>
+    </div>
+  </div>
+  <div>
+    <button class=" btn btn-info openInputsList mb-3" *ngIf="isAdmin" (click)="newQuestionModal()">Open Inputs List ( +
+      )</button>
+  </div>
+  <button class="btn btn-success mb-3" *ngIf="!isAdmin" (click)="submitAnswers()" [disabled]="!generatedForm.valid">
+    Done (submit answers)</button>
+  <button *ngIf="isAdmin" class="btn btn-success" (click)="finishForm()">
+    Done (submit questions)</button>
+  <br>
+</form>
+
+<br>

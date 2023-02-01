@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Delete Confirmation</h1>
+<div mat-dialog-content>
+    <p>Are you sure you want to delete this item</p>
+    <span>HINT : This will delete all related data like questions or answers </span>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="true">Yes, I am sure</button>
+    <button mat-button [mat-dialog-close]="false" cdkFocusInitial>Cancel</button>
+</div>
